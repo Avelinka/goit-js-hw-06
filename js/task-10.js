@@ -2,6 +2,7 @@ const controls = document.querySelector("#controls");
 const boxesContainer = document.querySelector("#boxes");
 
 const input = controls.querySelector("input");
+
 const createButton = controls.querySelector("[data-create]");
 const destroyButton = controls.querySelector("[data-destroy]");
 
@@ -10,15 +11,18 @@ destroyButton.addEventListener("click", destroyBoxes);
 
 function createBoxes() {
   const amount = input.value;
+  const min = Number(input.getAttribute("min"));
+  const max = Number(input.getAttribute("max"));
+  const step = Number(input.getAttribute("step"));
 
-  if (amount < 1 || amount > 100) {
+  if (amount < min || amount > max) {
     alert("Please enter a number between 1 and 100");
     return;
   }
 
   const boxes = [];
 
-  for (let i = 0; i < amount; i++) {
+  for (let i = 0; i < amount; i += step) {
     const box = document.createElement("div");
     const size = 30 + i * 10;
     box.style.width = size + "px";
@@ -32,6 +36,7 @@ function createBoxes() {
 
 function destroyBoxes() {
   boxesContainer.innerHTML = "";
+  input.value = "";
 }
 
 function getRandomHexColor() {
